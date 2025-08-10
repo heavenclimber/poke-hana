@@ -1,21 +1,30 @@
-import axios from "axios";
+// axiosFetcher.ts
+import axios, { AxiosRequestConfig, Method } from "axios";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_POKEMON_URL || "";
-const apiKey = process.env.NEXT_PUBLIC_POKEMON_API_KEY || "";
+interface FetcherOptions extends AxiosRequestConfig {
+  method?: Method;
+  data?: any;
+}
 
 const axiosInstance = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    "X-Api-Key": apiKey,
-  },
+  baseURL: "/api/pokemon", // always call your API proxy
 });
 
-export async function axiosFetcher(endpoint: string) {
+export async function axiosFetcher(
+  endpoint: string,
+  options: FetcherOptions = {}
+) {
+  const { method = "GET", data, ...restConfig } = options;
+
   try {
-    const response = await axiosInstance.get(endpoint);
+    const response = await axiosInstance.request({
+      url: endpoint, // e.g. "/cards"
+      method,
+      data,
+      ...restConfig,
+    });
     return response.data;
   } catch (error: any) {
-    // Optionally customize error handling
     throw new Error(error.response?.data?.message || error.message);
   }
 }
