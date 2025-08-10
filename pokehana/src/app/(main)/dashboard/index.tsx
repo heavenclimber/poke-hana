@@ -14,6 +14,7 @@ import { IconButton, useMediaQuery, useTheme } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 
 import { getDropdowns } from "@/services/getDropdowns";
+import Image from "next/image";
 
 const defaultFilter = {
   name: "",
@@ -113,6 +114,7 @@ const Dashboard = () => {
     <div className="flex h-screen overflow-hidden">
       <main ref={scrollRef} className="flex-grow overflow-y-auto relative p-4">
         <div className="flex items-center justify-between mb-4 pt-4">
+          <Image width={100} height={100} src="/img/logo.jpg" alt="logo" />
           <SearchPokemon onSearch={handleSearch} />
           <IconButton
             color="primary"
